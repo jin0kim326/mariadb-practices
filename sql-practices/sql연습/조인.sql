@@ -69,5 +69,66 @@ SELECT *
   FROM emp a
 RIGHT JOIN dept b ON a.dept_no = b.no;
   
+-- Question1
+# 현재 회사 상황을 반영한 직원별 근무부서를 사번,이름,근무 부서로 출력
+SELECT e.emp_no,
+	   e.first_name,
+       d.dept_name
+  FROM employees e,
+	   dept_emp de,
+       departments d
+ WHERE e.emp_no = de.emp_no
+   AND de.dept_no = d.dept_no
+   AND de.to_date = '9999-01-01'
+  ;
   
-SELECT * FROM dept;
+-- Question2
+# 현재 회사에서 지급되고 있는 급여체계를 반영한 결과 출력
+# 사번, 이름, 연봉 
+SELECT e.emp_no,
+	   e.first_name,
+       s.salary
+  FROM employees e,
+	   salaries s
+ WHERE e.emp_no = s.emp_no
+   AND s.to_date = '9999-01-01'
+ORDER BY s.salary desc
+   ;
+   
+-- Question3
+# 현재 직책별로 평균 연봉과 인원수를 구하되 직책별로 인원이 100명 이상인 직책
+	SELECT t.title AS 직책,
+		   avg(s.salary) AS 평균연봉, 
+		   count(*) AS 인원수
+	  FROM titles t,
+		   salaries s
+	 WHERE t.emp_no = s.emp_no
+	   AND t.to_date = '9999-01-01'
+	   AND s.to_date = '9999-01-01'
+  GROUP BY t.title
+	HAVING 인원수 >= 100
+  ORDER BY 평균연봉 desc
+	;
+    
+-- Question4
+# 현재 부서별로 현재 직책이 Engineer인 직원들에 대해서만 평균급여를 구하세요.
+SELECT 
+  FROM 
+ ; 
+-- Question5
+# 현재 직책별로 급여의 총합을 구하되 Engineer 직책은 제외
+# 단 총합이 2,000,000,000 이상인 직책만 / 내림차순 정렬
+	SELECT t.title AS 직책,
+		   sum(s.salary) AS 연봉총합
+	  FROM salaries s,
+		   titles t
+	 WHERE s.emp_no = t.emp_no
+	   AND t.title <> 'Engineer'
+       AND t.to_date = '9999-01-01'
+       AND s.to_date = '9999-01-01'
+  GROUP BY t.title
+    HAVING 연봉총합 > 2000000000
+  ORDER BY 연봉총합 desc
+;
+
+
