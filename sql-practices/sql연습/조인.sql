@@ -112,8 +112,20 @@ ORDER BY s.salary desc
     
 -- Question4
 # 현재 부서별로 현재 직책이 Engineer인 직원들에 대해서만 평균급여를 구하세요.
-SELECT 
-  FROM 
+SELECT d.dept_name AS 부서,
+	   avg(s.salary) AS 평균급여
+  FROM dept_emp de,
+	   departments d,
+       salaries s,
+       titles t
+ WHERE d.dept_no = de.dept_no
+   AND de.emp_no = s.emp_no
+   AND s.emp_no = t.emp_no
+   AND t.title = 'Engineer'
+   AND de.to_date = '9999-01-01'
+   AND t.to_date = '9999-01-01'
+   AND s.to_date = '9999-01-01'
+GROUP BY d.dept_no 
  ; 
 -- Question5
 # 현재 직책별로 급여의 총합을 구하되 Engineer 직책은 제외
